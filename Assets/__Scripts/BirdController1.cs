@@ -52,6 +52,7 @@ public class BirdController1 : MonoBehaviour
 	private Vector2 planarInput;
 	private bool jumpHeld;
 	private bool descendHeld;
+	private bool crouchHeld;
 	private bool soarHeld;
 	private bool warnedMissingAnimator;
 
@@ -95,6 +96,8 @@ public class BirdController1 : MonoBehaviour
 		playerControls.Player.Jump.canceled += OnJumpReleased;
 		playerControls.Player.Descend.performed += OnDescendPressed;
 		playerControls.Player.Descend.canceled += OnDescendReleased;
+		playerControls.Player.Crouch.performed += OnCrouchPressed;
+		playerControls.Player.Crouch.canceled += OnCrouchReleased;
 		playerControls.Player.Sprint.performed += OnSoarPressed;
 		playerControls.Player.Sprint.canceled += OnSoarReleased;
 	}
@@ -106,6 +109,8 @@ public class BirdController1 : MonoBehaviour
 		playerControls.Player.Jump.canceled -= OnJumpReleased;
 		playerControls.Player.Descend.performed -= OnDescendPressed;
 		playerControls.Player.Descend.canceled -= OnDescendReleased;
+		playerControls.Player.Crouch.performed -= OnCrouchPressed;
+		playerControls.Player.Crouch.canceled -= OnCrouchReleased;
 		playerControls.Player.Sprint.performed -= OnSoarPressed;
 		playerControls.Player.Sprint.canceled -= OnSoarReleased;
 		playerControls.Disable();
@@ -171,6 +176,14 @@ public class BirdController1 : MonoBehaviour
 	public void OnJumpReleased(InputAction.CallbackContext context)
 	{
 		jumpHeld = false;
+	}
+	public void OnCrouchPressed(InputAction.CallbackContext context)
+	{
+		crouchHeld = true;
+	}
+	public void OnCrouchReleased(InputAction.CallbackContext context)
+	{
+		crouchHeld = false;
 	}
 
 	public void OnDescendPressed(InputAction.CallbackContext context)
@@ -391,7 +404,7 @@ public class BirdController1 : MonoBehaviour
 		{
 			y += 1f;
 		}
-		if (descendHeld)
+		if (descendHeld || crouchHeld)
 		{
 			y -= 1f;
 		}
