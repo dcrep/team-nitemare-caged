@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.PlayerLoop;
@@ -161,14 +162,18 @@ public class AudioManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         audioSourceMusic.clip = null;
     }
-    public static void Stop()
+    public static void Stop(bool clearClip = true)
     {
         if (audioSourceMusic != null)
         {
             audioSourceMusic.Stop();
-            audioSourceMusic.clip = null;
+            if (clearClip)
+            {
+                audioSourceMusic.clip = null;
+            }
         }
     }
+    public static void Restart() => audioSourceMusic.Play();
     public static void Pause() => audioSourceMusic.Pause();
     public static void UnPause() => audioSourceMusic.UnPause();
     public static void PauseToggle()
